@@ -1,13 +1,13 @@
 import { MICROSOFT_STORE_URL } from '@/config/links'
 
-export function MicrosoftStoreBadge() {
+export function MicrosoftStoreBadge({ className = '' }) {
   return (
     <a
       href={MICROSOFT_STORE_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Get Sharbee from Microsoft Store"
-      className="inline-flex h-[52px] items-center gap-3 rounded-md border border-zinc-700 bg-black px-4 transition-colors hover:border-zinc-500 hover:bg-zinc-950"
+      className={`inline-flex h-[52px] items-center justify-center gap-3 rounded-md border border-zinc-700 bg-black px-4 transition-colors hover:border-zinc-500 hover:bg-zinc-950 ${className}`}
     >
       <MicrosoftLogo />
       <span className="flex flex-col leading-none">

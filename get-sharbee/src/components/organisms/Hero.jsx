@@ -1,8 +1,10 @@
 import { Button } from '@/components/atoms/Button'
 import { MicrosoftStoreBadge } from '@/components/molecules/MicrosoftStoreBadge'
-import { useWindowsDownload } from '@/context/WindowsDownloadContext'
+import { StandaloneButton } from '@/components/molecules/StandaloneButton'
+import { BypassHelp } from '@/components/molecules/BypassHelp'
+import sharbeeIcon from '@/assets/sharbee_icon.png'
 
-function DownloadIcon() {
+function CartIcon() {
   return (
     <svg
       className="h-4 w-4"
@@ -15,7 +17,7 @@ function DownloadIcon() {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
       />
     </svg>
   )
@@ -35,12 +37,10 @@ function AppleIcon() {
 }
 
 export function Hero() {
-  const { url, loading, error } = useWindowsDownload()
-
   return (
     <section
       id="hero"
-      className="relative overflow-hidden px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-8"
+      className="relative px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-8"
     >
       <div
         aria-hidden="true"
@@ -50,6 +50,13 @@ export function Hero() {
       </div>
 
       <div className="mx-auto max-w-4xl text-center">
+        {/*         <img
+          src={sharbeeIcon}
+          alt="Sharbee"
+          width="96"
+          height="96"
+          className="mx-auto mb-6 h-20 w-20 drop-shadow-[0_0_25px_rgba(56,189,248,0.35)] sm:h-24 sm:w-24"
+        /> */}
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-sky-400">
           Local-first file sharing
         </p>
@@ -65,26 +72,29 @@ export function Hero() {
           third-party cloud.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
-          <MicrosoftStoreBadge />
-          <Button
-            as="a"
-            href={url ?? undefined}
-            variant="secondary"
-            size="lg"
-            disabled={loading || !url}
-            aria-disabled={loading || !url}
-          >
-            <DownloadIcon />
-            {loading ? 'Resolving installer…' : 'Windows Installer (.exe)'}
-          </Button>
+        <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
+          <MicrosoftStoreBadge className="w-full sm:w-64" />
+          <div className="relative w-full sm:w-64">
+            <StandaloneButton
+              variant="secondary"
+              size="lg"
+              className="h-[52px] w-full"
+            >
+              <CartIcon />
+              Get Standalone Build
+            </StandaloneButton>
+            <div className="absolute -right-2 -top-3">
+              <BypassHelp />
+            </div>
+          </div>
         </div>
 
-        {error && (
-          <p className="mt-3 text-sm text-red-400" role="alert">
-            Could not resolve the latest installer. Try again shortly.
-          </p>
-        )}
+        <p className="mt-4 text-sm text-zinc-500">
+          <a href="#download" className="text-sky-400 hover:text-sky-300">
+            Compare editions
+          </a>{' '}
+          — Microsoft Store vs. direct standalone build.
+        </p>
 
         <div className="mt-5">
           <Button variant="disabled" size="md" disabled aria-disabled="true">

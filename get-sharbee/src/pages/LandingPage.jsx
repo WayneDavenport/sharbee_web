@@ -1,19 +1,21 @@
-import { WindowsDownloadProvider } from '@/context/WindowsDownloadContext'
 import { Navbar } from '@/components/organisms/Navbar'
 import { Hero } from '@/components/organisms/Hero'
 import { FeatureGrid } from '@/components/organisms/FeatureGrid'
+import { PurchaseOptions } from '@/components/organisms/PurchaseOptions'
+import { InstallerGuide } from '@/components/organisms/InstallerGuide'
 import { SecuritySection } from '@/components/organisms/SecuritySection'
 import { SupportForm } from '@/components/organisms/SupportForm'
 import { Footer } from '@/components/organisms/Footer'
 
 export function LandingPage() {
   return (
-    <WindowsDownloadProvider>
     <div className="min-h-svh">
       <Navbar />
       <main>
         <Hero />
         <FeatureGrid />
+        <PurchaseOptions />
+        <InstallerGuide />
         <SecuritySection />
         <section
           id="support"
@@ -37,6 +39,5 @@ export function LandingPage() {
       </main>
       <Footer />
     </div>
-    </WindowsDownloadProvider>
   )
 }
