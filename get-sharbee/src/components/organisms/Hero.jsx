@@ -73,7 +73,7 @@ export function Hero() {
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
-          <MicrosoftStoreBadge className="w-full sm:w-64" />
+          <MicrosoftStoreBadge className="w-full sm:w-64" disabled />
           <div className="relative w-full sm:w-64">
             <StandaloneButton
               variant="secondary"
