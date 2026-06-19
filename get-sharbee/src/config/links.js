@@ -1,9 +1,8 @@
-/**
- * Drop in the final Microsoft Store URL when registration is complete.
- * The standalone build is sold and delivered through Lemon Squeezy.
- */
 export const MICROSOFT_STORE_URL =
-  'https://apps.microsoft.com/detail/PLACEHOLDER_ID'
+  'https://get.microsoft.com/installer/download/9N6X8PL8N6T7?referrer=appbadge'
+
+export const MICROSOFT_STORE_BADGE_SRC =
+  'https://get.microsoft.com/images/en-us%20dark.svg'
 
 export const LEMONSQUEEZY_CHECKOUT_URL =
   'https://sharbee.lemonsqueezy.com/checkout/buy/02aff335-9b38-46c3-b410-73faf13939d5?embed=1'

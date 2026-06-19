@@ -120,7 +120,7 @@ export function PurchaseOptions() {
               <FeatureList items={storeFeatures} />
             </div>
             <div className="mt-8 flex flex-1 items-end">
-              <MicrosoftStoreBadge className="w-full" disabled />
+              <MicrosoftStoreBadge className="w-full" />
             </div>
           </article>
 
