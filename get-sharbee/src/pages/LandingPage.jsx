@@ -6,38 +6,56 @@ import { InstallerGuide } from '@/components/organisms/InstallerGuide'
 import { SecuritySection } from '@/components/organisms/SecuritySection'
 import { SupportForm } from '@/components/organisms/SupportForm'
 import { Footer } from '@/components/organisms/Footer'
+import Scene from '@/components/Scene'
+import { Canvas } from '@react-three/fiber'
 
 export function LandingPage() {
   return (
-    <div className="min-h-svh">
-      <Navbar />
-      <main>
-        <Hero />
-        <FeatureGrid />
-        <PurchaseOptions />
-        <InstallerGuide />
-        <SecuritySection />
-        <section
-          id="support"
-          className="border-t border-zinc-800/80 px-4 py-20 sm:px-6 lg:px-8"
-        >
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-10 max-w-2xl">
-              <h2 className="text-3xl font-bold tracking-tight text-white">
-                Support
-              </h2>
-              <p className="mt-3 text-zinc-400">
-                Questions, feedback, or enterprise inquiries — we read every
-                message.
-              </p>
+    <>
+      {/* Full-page R3F background canvas */}
+      <Canvas
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+        }}
+        camera={{ position: [0, 0, 5], fov: 75 }}
+      >
+        <color attach="background" args={['#09090f']} />
+        <Scene />
+      </Canvas>
+
+      {/* Content overlay */}
+      <div className="relative z-10 min-h-svh">
+        <Navbar />
+        <main>
+          <Hero />
+          <FeatureGrid />
+          <PurchaseOptions />
+          <InstallerGuide />
+          <SecuritySection />
+          <section
+            id="support"
+            className="border-t border-zinc-800/80 bg-[#09090f]/80 px-4 py-20 backdrop-blur-sm sm:px-6 lg:px-8"
+          >
+            <div className="mx-auto max-w-6xl">
+              <div className="mb-10 max-w-2xl">
+                <h2 className="text-3xl font-bold tracking-tight text-white">
+                  Support
+                </h2>
+                <p className="mt-3 text-zinc-400">
+                  Questions, feedback, or enterprise inquiries — we read every
+                  message.
+                </p>
+              </div>
+              <div className="max-w-xl">
+                <SupportForm />
+              </div>
             </div>
-            <div className="max-w-xl">
-              <SupportForm />
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }

@@ -8,7 +8,7 @@ export function SecuritySection() {
   return (
     <section
       id="security"
-      className="border-t border-zinc-800/80 px-4 py-20 sm:px-6 lg:px-8"
+      className="border-t border-zinc-800/80 bg-[#09090f]/80 px-4 py-20 backdrop-blur-sm sm:px-6 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
         <div className="rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900/80 to-zinc-950 p-8 sm:p-12">

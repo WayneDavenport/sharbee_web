@@ -38,69 +38,92 @@ function AppleIcon() {
 
 export function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-8"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
-      >
-        <div className="absolute left-1/2 top-0 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
-      </div>
-
-      <div className="mx-auto max-w-4xl text-center">
-        {/*         <img
-          src={sharbeeIcon}
-          alt="Sharbee"
-          width="96"
-          height="96"
-          className="mx-auto mb-6 h-20 w-20 drop-shadow-[0_0_25px_rgba(56,189,248,0.35)] sm:h-24 sm:w-24"
-        /> */}
-        <p className="mb-4 text-sm font-medium uppercase tracking-widest text-sky-400">
-          Local-first file sharing
-        </p>
-        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          Blazing fast file transfers across your local network.
-          <span className="mt-2 block text-zinc-400">
-            No cloud required.
-          </span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">
-          Sharbee moves files at LAN speed with zero configuration. Share with
-          anyone on your WiFi — desktop or mobile — without routing through a
-          third-party cloud.
-        </p>
-
-        <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
-          <MicrosoftStoreBadge className="w-full sm:w-64" />
-          <div className="relative w-full sm:w-64">
-            <StandaloneButton
-              variant="secondary"
-              size="lg"
-              className="h-[52px] w-full"
-            >
-              <CartIcon />
-              Get Standalone Build
-            </StandaloneButton>
-            <div className="absolute -right-2 -top-3">
-              <BypassHelp />
-            </div>
-          </div>
+    <section id="hero" className="relative px-4 pb-20 pt-32 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        {/* Large icon + title at top */}
+        <div className="mb-12 flex items-center justify-center gap-6">
+          <img
+            src={sharbeeIcon}
+            alt="Sharbee"
+            width="160"
+            height="160"
+            className="h-32 w-32 drop-shadow-[0_0_40px_rgba(56,189,248,0.6)] sm:h-40 sm:w-40"
+          />
+          <h1
+            className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl"
+            style={{
+              background:
+                'linear-gradient(135deg, #22d3ee 0%, #86efac 50%, #fbbf24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 20px rgba(34, 211, 238, 0.5))',
+            }}
+          >
+            Sharbee
+          </h1>
         </div>
 
-        <p className="mt-4 text-sm text-zinc-500">
-          <a href="#download" className="text-sky-400 hover:text-sky-300">
-            Compare editions
-          </a>{' '}
-          — Microsoft Store vs. direct standalone build.
-        </p>
+        <div className="relative mx-auto max-w-4xl text-center">
+          {/* Radial gradient spotlight for readability */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10"
+          >
+            <div
+              className="absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-3/4 rounded-full blur-3xl"
+              style={{
+                background:
+                  'radial-gradient(circle, rgba(14, 36, 49, 0.98) 0%, rgba(9, 20, 35, 0.92) 35%, rgba(9, 15, 30, 0.7) 60%, rgba(9, 9, 15, 0.3) 80%, transparent 100%)',
+              }}
+            />
+          </div>
 
-        <div className="mt-5">
-          <Button variant="disabled" size="md" disabled aria-disabled="true">
-            <AppleIcon />
-            macOS App — Coming Soon
-          </Button>
+          <p className="mb-4 text-sm font-medium uppercase tracking-widest text-sky-400">
+            Local-first file sharing
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Blazing fast file transfers across your local network.
+            <span className="mt-2 block text-zinc-400">
+              No cloud required.
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">
+            Sharbee moves files at LAN speed with zero configuration. Share with
+            anyone on your WiFi — desktop or mobile — without routing through a
+            third-party cloud.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <MicrosoftStoreBadge className="w-full sm:w-64" />
+            <div className="relative w-full sm:w-64">
+              <StandaloneButton
+                variant="secondary"
+                size="lg"
+                className="h-[52px] w-full"
+              >
+                <CartIcon />
+                Get Standalone Build
+              </StandaloneButton>
+              <div className="absolute -right-2 -top-3">
+                <BypassHelp />
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-4 text-sm text-zinc-500">
+            <a href="#download" className="text-sky-400 hover:text-sky-300">
+              Compare editions
+            </a>{' '}
+            — Microsoft Store vs. direct standalone build.
+          </p>
+
+          <div className="mt-5">
+            <Button variant="disabled" size="md" disabled aria-disabled="true">
+              <AppleIcon />
+              macOS App — Coming Soon
+            </Button>
+          </div>
         </div>
       </div>
     </section>

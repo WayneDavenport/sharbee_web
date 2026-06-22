@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="border-t border-zinc-800/80 px-4 py-10 sm:px-6 lg:px-8">
+      <footer className="border-t border-zinc-800/80 bg-[#09090f]/90 px-4 py-10 backdrop-blur-sm sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <Logo />
