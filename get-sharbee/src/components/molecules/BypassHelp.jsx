@@ -1,14 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 export function BypassHelp() {
   const [open, setOpen] = useState(false)
-  const wrapperRef = useRef(null)
+  const buttonRef = useRef(null)
+  const [position, setPosition] = useState({ top: 0, right: 0 })
 
   useEffect(() => {
-    if (!open) return
+    if (!open || !buttonRef.current) return
+
+    const updatePosition = () => {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setPosition({
+        top: rect.bottom + 8,
+        right: window.innerWidth - rect.right,
+      })
+    }
+
+    updatePosition()
+    window.addEventListener('scroll', updatePosition)
+    window.addEventListener('resize', updatePosition)
 
     function handlePointerDown(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        !event.target.closest('[role="dialog"]')
+      ) {
         setOpen(false)
       }
     }
@@ -23,30 +41,21 @@ export function BypassHelp() {
     return () => {
       document.removeEventListener('mousedown', handlePointerDown)
       document.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('scroll', updatePosition)
+      window.removeEventListener('resize', updatePosition)
     }
   }, [open])
 
-  return (
-    <div ref={wrapperRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label="Why does Windows warn me?"
-        aria-expanded={open}
-        className="group relative flex h-7 w-7 items-center justify-center rounded-full border border-sky-400/60 bg-zinc-950 text-sm font-bold text-sky-300 transition-colors hover:bg-sky-400 hover:text-zinc-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
-      >
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 animate-pulse rounded-full shadow-[0_0_10px_2px_rgba(56,189,248,0.7)]"
-        />
-        <span className="relative">?</span>
-      </button>
-
-      {open && (
+  const dialog = open
+    ? createPortal(
         <div
           role="dialog"
           aria-label="Windows SmartScreen instructions"
-          className="absolute right-0 top-9 z-[9999] w-72 rounded-xl border border-zinc-700 bg-zinc-950 p-4 text-left shadow-2xl shadow-black/50"
+          className="fixed z-[99999] w-72 rounded-xl border border-zinc-700 bg-zinc-950 p-4 text-left shadow-2xl shadow-black/50"
+          style={{
+            top: `${position.top}px`,
+            right: `${position.right}px`,
+          }}
         >
           <div
             aria-hidden="true"
@@ -69,8 +78,7 @@ export function BypassHelp() {
             </li>
             <li className="flex gap-2">
               <span className="font-semibold text-sky-400">2.</span>
-              Click <span className="text-white">"Run anyway"</span> to launch
-              {/*  and paste your license key. */}
+              Click <span className="text-white">"Run anyway"</span> to launch.
             </li>
           </ol>
           <a
@@ -80,8 +88,28 @@ export function BypassHelp() {
           >
             See full installer guide →
           </a>
-        </div>
-      )}
-    </div>
+        </div>,
+        document.body,
+      )
+    : null
+
+  return (
+    <>
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label="Why does Windows warn me?"
+        aria-expanded={open}
+        className="group relative flex h-7 w-7 items-center justify-center rounded-full border border-sky-400/60 bg-zinc-950 text-sm font-bold text-sky-300 transition-colors hover:bg-sky-400 hover:text-zinc-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+      >
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 animate-pulse rounded-full shadow-[0_0_10px_2px_rgba(56,189,248,0.7)]"
+        />
+        <span className="relative">?</span>
+      </button>
+      {dialog}
+    </>
   )
 }

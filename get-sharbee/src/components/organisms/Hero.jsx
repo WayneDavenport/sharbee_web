@@ -83,9 +83,10 @@ export function Hero() {
             Local-first file sharing
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Blazing fast file transfers across your local network.
+            Zero-friction file sharing across your local network.
             <span className="mt-2 block text-zinc-400">
-              No cloud required.
+              No cloud, no middleman.
+
             </span>
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">

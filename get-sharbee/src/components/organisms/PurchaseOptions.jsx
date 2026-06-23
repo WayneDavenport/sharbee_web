@@ -150,7 +150,7 @@ export function PurchaseOptions() {
                   <CartIcon />
                   Get Standalone Build ($)
                 </StandaloneButton>
-                <div className="absolute -right-2 -top-3">
+                <div className="absolute -right-2 -top-3 z-30">
                   <BypassHelp />
                 </div>
               </div>
