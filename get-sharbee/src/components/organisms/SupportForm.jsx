@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import { SUPPORT_EMAIL } from '@/config/links'
+import { SUPPORT_EMAIL, WEB3FORMS_ACCESS_KEY } from '@/config/links'
 
 const initialForm = { name: '', email: '', message: '' }
 
@@ -48,7 +48,9 @@ const inputClass =
 export function SupportForm() {
   const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -58,41 +60,69 @@ export function SupportForm() {
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     const nextErrors = validate(form)
     setErrors(nextErrors)
 
-    if (Object.keys(nextErrors).length === 0) {
-      // TODO: wire to support@sharbee.app via your domain routing backend
-      setSubmitted(true)
+    if (Object.keys(nextErrors).length > 0) return
+
+    setLoading(true)
+    setSubmitError(null)
+
+    try {
+      const formData = new FormData()
+      formData.append('access_key', WEB3FORMS_ACCESS_KEY)
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('message', form.message)
+      formData.append('subject', `Sharbee Support: Message from ${form.name}`)
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await response.json()
+
+      if (data.success) {
+        setSubmitted(true)
+        setForm(initialForm)
+      } else {
+        setSubmitError('Something went wrong. Please try again.')
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 text-center">
-        <p className="text-lg font-medium text-white">Message ready to send</p>
-        <p className="mt-2 text-sm text-zinc-400">
-          Form validation passed. Connect this to your email pipeline targeting{' '}
-          <a
-            href={`mailto:${SUPPORT_EMAIL}`}
-            className="text-sky-400 hover:text-sky-300"
+      <div className="rounded-2xl border border-sky-400/40 bg-gradient-to-br from-sky-400/10 to-zinc-900/50 p-8 text-center">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sky-400/20">
+          <svg
+            className="h-6 w-6 text-sky-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
           >
-            {SUPPORT_EMAIL}
-          </a>
-          .
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p className="text-lg font-semibold text-white">Message sent!</p>
+        <p className="mt-2 text-sm text-zinc-400">
+          Thanks for reaching out. We will get back to you at{' '}
+          <span className="text-sky-400">{form.email || 'your email'}</span> soon.
         </p>
         <Button
           variant="secondary"
           size="sm"
           className="mt-6"
-          onClick={() => {
-            setSubmitted(false)
-            setForm(initialForm)
-          }}
+          onClick={() => setSubmitted(false)}
         >
-          Send another
+          Send another message
         </Button>
       </div>
     )
@@ -117,6 +147,7 @@ export function SupportForm() {
             placeholder="Your name"
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? 'name-error' : undefined}
+            disabled={loading}
           />
         </Field>
 
@@ -132,6 +163,7 @@ export function SupportForm() {
             placeholder="you@example.com"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'email-error' : undefined}
+            disabled={loading}
           />
         </Field>
 
@@ -146,13 +178,42 @@ export function SupportForm() {
             placeholder="How can we help?"
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? 'message-error' : undefined}
+            disabled={loading}
           />
         </Field>
+
+        {/* Honeypot — hidden from humans, filled by bots */}
+        <input
+          type="checkbox"
+          name="botcheck"
+          className="hidden"
+          style={{ display: 'none' }}
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
-      <Button type="submit" size="lg" className="mt-6 w-full sm:w-auto">
-        Send message
+      {submitError && (
+        <p className="mt-4 text-sm text-red-400" role="alert">
+          {submitError}
+        </p>
+      )}
+
+      <Button
+        type="submit"
+        size="lg"
+        disabled={loading}
+        className="mt-6 w-full sm:w-auto"
+      >
+        {loading ? 'Sending…' : 'Send message'}
       </Button>
+
+      <p className="mt-4 text-xs text-zinc-500">
+        Messages are sent to{' '}
+        <a href={`mailto:${SUPPORT_EMAIL}`} className="text-sky-400 hover:text-sky-300">
+          {SUPPORT_EMAIL}
+        </a>
+      </p>
     </form>
   )
 }
